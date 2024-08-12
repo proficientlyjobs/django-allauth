@@ -17,6 +17,7 @@ class RESTView(View):
         return self.handle(request, *args, **kwargs)
 
     def handle(self, request, *args, **kwargs):
+        print("RestView->handle(request): ", request)
         if self.handle_json_input and request.method != "GET":
             self.data = self._parse_json(request)
             response = self.handle_input(self.data)
@@ -28,6 +29,7 @@ class RESTView(View):
         return {}
 
     def handle_input(self, data):
+        print("RestView->handle_input(data): ", data)
         input_class = self.input_class
         if isinstance(input_class, dict):
             input_class = input_class.get(self.request.method)
@@ -38,6 +40,7 @@ class RESTView(View):
             # Make form bound on empty POST
             data = {}
         self.input = input_class(data=data, **input_kwargs)
+        print("RestView->handle_input(input.data, input.is_valid()): ", self.input.data, self.input.is_valid())
         if not self.input.is_valid():
             return ErrorResponse(self.request, input=self.input)
 
