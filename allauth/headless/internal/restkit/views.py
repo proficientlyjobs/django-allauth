@@ -17,7 +17,7 @@ class RESTView(View):
         return self.handle(request, *args, **kwargs)
 
     def handle(self, request, *args, **kwargs):
-        print("RestView->handle(request): ", request)
+        print("RestView->handle(request.body): ", request.body)
         if self.handle_json_input and request.method != "GET":
             self.data = self._parse_json(request)
             response = self.handle_input(self.data)
